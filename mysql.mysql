@@ -1,0 +1,61 @@
+CREATE DATABASE cloud_kitchen;
+USE cloud_kitchen;
+
+-- USERS TABLE
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  phone VARCHAR(15) UNIQUE,
+  password VARCHAR(255)
+);
+
+-- PRODUCTS TABLE
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  price DECIMAL(10,2),
+  image VARCHAR(255),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CART TABLE
+CREATE TABLE cart (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  product_id INT,
+  quantity INT DEFAULT 1
+);
+
+-- ORDERS TABLE
+CREATE TABLE orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id VARCHAR(20),
+  user_id INT,
+  address TEXT,
+  location VARCHAR(255),
+  phone VARCHAR(15),
+  total_amount DECIMAL(10,2),
+  status ENUM('Pending','Preparing','Packed','Out for Delivery','Delivered','Rejected') DEFAULT 'Pending',
+  bill_file VARCHAR(255) DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ORDER ITEMS TABLE
+CREATE TABLE order_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id VARCHAR(20),
+  product_id INT,
+  quantity INT,
+  price DECIMAL(10,2)
+);
+
+-- ADMIN TABLE
+CREATE TABLE IF NOT EXISTS admin (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- DEFAULT ADMIN LOGIN
+INSERT INTO admin (username, password) VALUES ('sakil', '8675');
